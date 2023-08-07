@@ -15,3 +15,16 @@ export const getPosts: () => Promise<Post[]> = async () => {
   const data = await promises.readFile(filePath, "utf-8");
   return JSON.parse(data);
 };
+
+export const getPostDetail: (
+  path: string
+) => Promise<Post | undefined> = async (path: string) => {
+  const posts = await getPosts();
+  return posts.find((post) => post.path === path);
+};
+
+// export const getMarkDown = async (path: string) => {
+//   const filePath = path.join(process.cwd(), "data/posts", `${path}.md`);
+//   const data = await promises.readFile(filePath, "utf-8");
+//   return JSON.parse(data);
+// };
