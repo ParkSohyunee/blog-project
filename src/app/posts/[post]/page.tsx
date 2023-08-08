@@ -28,7 +28,7 @@ export default async function PostDetailPage({ params: { post } }: Props) {
   const data = res;
 
   return (
-    <div>
+    <div className="bg-indigo-50 p-8 rounded-md">
       <h1 className="my-4 text-2xl font-medium">{postDetail?.title}</h1>
       <MarkdownViewer data={data} />
     </div>
