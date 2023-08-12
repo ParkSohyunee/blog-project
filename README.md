@@ -1,34 +1,56 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<div>
+  <h1>Blog</h1> 
+  <p>Next.js(v13), React(v18) 공부 후 블로그 만들기 challenge</p>
+</div>
 
-## Getting Started
+<br/>
 
-First, run the development server:
+<!-- About the Project -->
+## :star2: About the Project
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+<!-- TechStack -->
+### :space_invader: Tech Stack
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<details>
+  <summary>Frontend 기술 스택</summary>
+  <ul>
+    <li><a href="https://nextjs.org/">Next.js (v13.4.12)</a></li>
+    <li><a href="https://reactjs.org/">React (v18.2.0)</a></li>
+    <li>Typescript (v5.1.6)</li>
+    <li>Tailwindcss</li>
+  </ul>
+</details>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+<details>
+  <summary>라이브러리</summary>
+  <ul>
+    <li>react-markdown (마크다운 뷰어)</li>
+    <li>remark-gfm (마크다운 확장 기능 플러그인)</li>
+    <li>react-syntax-highlighter (마크다운 코드 포맷 하이라이터)</li>
+    <li>nodemailer (노드로 메일 보내기)</li>
+    <li>react-multi-carousel (케러셀)</li>
+    <li>react-icons (리액트 아이콘)</li>
+    <li>yup (검증 라이브러리)</li>
+  </ul>
+</details>
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+<br/>
 
-## Learn More
+<!-- Features -->
+### :dart: Features (MVP)
 
-To learn more about Next.js, take a look at the following resources:
+- 레이아웃 & 페이지 (Home, About, Posts, Contact)
+- 포스트 보여주기, 캐러셀로 보여주기
+- 전체 포스트 카테고리별 필터링
+- 상세 포스트 글 마크다운 형식으로 보여주기
+- 노드메일러로 메일 보내기 기능
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<br/>
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+<!-- Usage -->
+### :fire: 구현 예정 기능
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- [ ] 이전 글, 다음 글 보기
+- [ ] 반응형 웹 디자인
+- [ ] SEO 최적화
+- [ ] 기타 점검
