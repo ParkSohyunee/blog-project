@@ -12,8 +12,10 @@ export interface Post {
 
 export const getPosts: () => Promise<Post[]> = async () => {
   const filePath = path.join(process.cwd(), "data", "posts.json");
-  const data = await promises.readFile(filePath, "utf-8");
-  return JSON.parse(data);
+  return promises
+    .readFile(filePath, "utf-8")
+    .then(JSON.parse)
+    .then((posts: Post[]) => posts.sort((a, b) => (a.date > b.date ? -1 : 1)));
 };
 
 export const getPostDetail: (
