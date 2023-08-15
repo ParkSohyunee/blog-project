@@ -1,4 +1,5 @@
 import { promises } from "fs";
+import { readFile } from "fs/promises";
 import path from "path";
 
 export interface Post {
@@ -10,6 +11,12 @@ export interface Post {
   featured: boolean;
 }
 
+export type PostData = Post & {
+  content: string;
+  prev: Post | null;
+  next: Post | null;
+};
+
 export const getPosts: () => Promise<Post[]> = async () => {
   const filePath = path.join(process.cwd(), "data", "posts.json");
   return promises
@@ -18,15 +25,19 @@ export const getPosts: () => Promise<Post[]> = async () => {
     .then((posts: Post[]) => posts.sort((a, b) => (a.date > b.date ? -1 : 1)));
 };
 
-export const getPostDetail: (
-  path: string
-) => Promise<Post | undefined> = async (path: string) => {
+// prettier-ignore
+export const getPostDetail: (fileName: string) => Promise<PostData> = async (fileName: string) => {
+  const filePath = path.join(process.cwd(), "data/posts", `${fileName}.md`); // /Users/.../blog_project/data/posts/react18-walkthrough.md
   const posts = await getPosts();
-  return posts.find((post) => post.path === path);
-};
+  const post = posts.find((post) => post.path === fileName);
 
-// export const getMarkDown = async (path: string) => {
-//   const filePath = path.join(process.cwd(), "data/posts", `${path}.md`);
-//   const data = await promises.readFile(filePath, "utf-8");
-//   return JSON.parse(data);
-// };
+  if (!post) throw Error(`"${fileName}"의 포스트를 찾을 수 없습니다.`)
+
+  // 이전 포스트, 다음 포스트 정보
+  const index = posts.indexOf(post)
+  const prev = index < posts.length - 1 ? posts[index + 1] : null
+  const next = index > 0 ? posts[index - 1] : null
+
+  const content = await readFile(filePath, "utf-8");
+  return {...post, content, prev, next}
+};
