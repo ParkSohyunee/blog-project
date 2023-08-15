@@ -13,6 +13,7 @@ export default function MarkdownViewer(props: Props) {
   return (
     <>
       <ReactMarkdown
+        className="prose lg:prose-xl max-w-none"
         remarkPlugins={[remarkGfm]}
         components={{
           code({ node, inline, className, children, ...props }) {

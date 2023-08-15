@@ -1,8 +1,9 @@
 import MarkdownViewer from "components/MarkdownViewer";
-import { promises, readFileSync } from "fs";
+import { readFileSync } from "fs";
 import path from "path";
-
+import Image from "next/image";
 import { getPostDetail } from "service/posts";
+import { AiOutlineCalendar } from "react-icons/ai";
 
 interface Props {
   params: {
@@ -28,9 +29,24 @@ export default async function PostDetailPage({ params: { post } }: Props) {
   const data = res;
 
   return (
-    <div className="bg-indigo-50 p-8 rounded-md">
-      <h1 className="my-4 text-2xl font-medium">{postDetail?.title}</h1>
-      <MarkdownViewer data={data} />
-    </div>
+    <article className="w-full bg-indigo-50 rounded-md overflow-hidden shadow-sm">
+      <Image
+        className="w-full h-1/5 max-h-[500px]"
+        src={`/posts/${postDetail?.path}.png`}
+        alt={postDetail?.title || ""}
+        width={200}
+        height={200}
+      />
+      <section className="flex flex-col p-4">
+        <div className="flex items-center self-end gap-2 text-indigo-600">
+          <AiOutlineCalendar />
+          <p className="font-semibold">{postDetail?.date}</p>
+        </div>
+        <h1 className="my-4 text-3xl font-semibold">{postDetail?.title}</h1>
+        <p className="text-xl">{postDetail?.description}</p>
+        <div className="w-56 border-indigo-800 border-2 mt-4 mb-8" />
+        <MarkdownViewer data={data} />
+      </section>
+    </article>
   );
 }
