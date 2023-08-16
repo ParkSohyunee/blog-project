@@ -1,7 +1,8 @@
 "use client";
 
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, MouseEvent, useState } from "react";
 import { sendContactEmail } from "service/contact";
+import Banner, { BannerData } from "./Banner";
 
 interface Form {
   from: string;
@@ -9,12 +10,15 @@ interface Form {
   message: string;
 }
 
+const DEFAULT = {
+  from: "",
+  subject: "",
+  message: "",
+};
+
 export default function SendingMail() {
-  const [data, setData] = useState<Form>({
-    from: "",
-    subject: "",
-    message: "",
-  });
+  const [data, setData] = useState<Form>(DEFAULT);
+  const [banner, setBanner] = useState<BannerData | null>(null);
 
   const onChangeInput = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -23,40 +27,56 @@ export default function SendingMail() {
     setData((prev) => ({ ...prev, [id]: value }));
   };
 
-  const onClickSubmit = async () => {
+  const onClickSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
     try {
       await sendContactEmail(data);
-
-      const banner = document.getElementById("banner");
-      banner?.classList.add("submit");
-      setTimeout(() => banner?.classList.remove("submit"), 3000);
+      setBanner({ message: "메일을 성공적으로 보냈어요.", state: "success" });
+      setData(DEFAULT);
+      setTimeout(() => setBanner(null), 3000);
     } catch (error) {
-      console.log(error);
+      setBanner({ message: "메일을 보내는데 실패했어요.", state: "error" });
+      setTimeout(() => setBanner(null), 3000);
     }
   };
 
   return (
-    <>
-      <p
-        id="banner"
-        className="bg-green-200 p-4 rounded-md text-lg font-bold hidden"
-      >
-        🎉 이메일 전송을 성공했어요! 🥳
-      </p>
+    <form>
+      {banner && <Banner banner={banner} />}
       <div className="w-[400px] bg-indigo-800 p-6 rounded-md flex flex-col gap-4">
-        <h2 className="text-lg text-white font-bold">Your mail</h2>
-        <input onChange={onChangeInput} id="from" />
-        <h2 className="text-lg text-white font-bold">Subject</h2>
-        <input onChange={onChangeInput} id="subject" />
-        <h2 className="text-lg text-white font-bold">Message</h2>
-        <textarea className="h-[200px]" onChange={onChangeInput} id="message" />
+        <label className="text-lg text-white font-bold">Your mail</label>
+        <input
+          onChange={onChangeInput}
+          id="from"
+          value={data.from}
+          autoFocus
+          required
+        />
+        <label className="text-lg text-white font-bold">Subject</label>
+        <input
+          onChange={onChangeInput}
+          id="subject"
+          value={data.subject}
+          required
+        />
+        <label className="text-lg text-white font-bold">Message</label>
+        <textarea
+          className="h-[200px]"
+          onChange={onChangeInput}
+          id="message"
+          value={data.message}
+          rows={10}
+          required
+        />
         <button
+          type="button"
           onClick={onClickSubmit}
           className="bg-indigo-300 rounded-sm p-2 text-white text-lg"
         >
           submit
         </button>
       </div>
-    </>
+    </form>
   );
 }
