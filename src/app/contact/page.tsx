@@ -1,5 +1,11 @@
 import SendingMail from "components/Mail";
 import { BiLogoGithub, BiNotepad, BiGame } from "react-icons/bi";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Contact",
+  description: "이메일(email) 보내기",
+};
 
 const LINKS = [
   { icon: <BiLogoGithub />, url: "https://github.com/ParkSohyunee" },

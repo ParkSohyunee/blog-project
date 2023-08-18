@@ -3,10 +3,21 @@ import Image from "next/image";
 import { getPostDetail } from "service/posts";
 import { AiOutlineCalendar } from "react-icons/ai";
 import PostPreview from "components/PostPreview";
+import { Metadata } from "next";
 
 interface Props {
   params: {
     post: string;
+  };
+}
+
+// prettier-ignore
+export async function generateMetadata({params: { post }}: Props): Promise<Metadata> {
+  const { title, description } = await getPostDetail(post);
+
+  return {
+    title,
+    description,
   };
 }
 
