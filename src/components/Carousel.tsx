@@ -1,17 +1,15 @@
 "use client";
 
-import Image from "next/image";
-import { useRouter } from "next/navigation";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { Post } from "service/posts";
+import PostCard from "./PostCard";
 
 interface PostProps {
   posts: Post[];
 }
 
-export function CarouselComponent(props: PostProps) {
-  const router = useRouter();
+export function CarouselComponent({ posts }: PostProps) {
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
@@ -28,29 +26,15 @@ export function CarouselComponent(props: PostProps) {
   };
 
   return (
-    <Carousel responsive={responsive} infinite={true} autoPlay={true}>
-      {props.posts.map((post, index) => (
-        <div
-          onClick={() => router.push(`/posts/${post.path}`)}
-          key={index}
-          className=" m-4 rounded-lg h-[320px] overflow-hidden cursor-pointer shadow-[rgba(50,50,93,0.25)_0px_6px_12px_-2px,_rgba(0,0,0,0.3)_0px_3px_7px_-3px]"
-        >
-          <Image
-            className="w-full "
-            src={`/posts/${post.path}.png`}
-            alt={`${post.title} 이미지`}
-            width={200}
-            height={200}
-          />
-          <div className="flex flex-col items-center p-4 gap-2">
-            <h2 className="font-bold text-lg">{post.title}</h2>
-            <p>{post.description}</p>
-            <span className="bg-indigo-300 p-1 px-2 rounded-md text-white">
-              {post.category}
-            </span>
-          </div>
-        </div>
-      ))}
-    </Carousel>
+    <section>
+      <h1 className="text-3xl mt-8 mb-4">💜 You may like</h1>
+      <Carousel responsive={responsive} infinite={true} autoPlay={true}>
+        {posts.map((post) => (
+          <li key={post.path} className="mx-2">
+            <PostCard posts={post} />
+          </li>
+        ))}
+      </Carousel>
+    </section>
   );
 }

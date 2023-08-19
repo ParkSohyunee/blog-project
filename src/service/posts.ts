@@ -18,6 +18,11 @@ export type PostData = Post & {
   next: Post | null;
 };
 
+export const getFeaturedPosts = async () => {
+  const posts = await getPosts();
+  return posts.filter((post) => post.featured);
+};
+
 // 렌더링되는 사이클에 한해서만(같은 페이지) 캐시를 제공
 export const getPosts = cache(async () => {
   // console.log("getPosts");
