@@ -1,6 +1,7 @@
 import { promises } from "fs";
 import { readFile } from "fs/promises";
 import path from "path";
+import { cache } from "react";
 
 export interface Post {
   title: string;
@@ -17,13 +18,15 @@ export type PostData = Post & {
   next: Post | null;
 };
 
-export const getPosts: () => Promise<Post[]> = async () => {
+// 렌더링되는 사이클에 한해서만(같은 페이지) 캐시를 제공
+export const getPosts = cache(async () => {
+  // console.log("getPosts");
   const filePath = path.join(process.cwd(), "data", "posts.json");
   return promises
     .readFile(filePath, "utf-8")
     .then(JSON.parse)
     .then((posts: Post[]) => posts.sort((a, b) => (a.date > b.date ? -1 : 1)));
-};
+});
 
 // prettier-ignore
 export const getPostDetail: (fileName: string) => Promise<PostData> = async (fileName: string) => {

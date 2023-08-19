@@ -1,6 +1,6 @@
 import MarkdownViewer from "components/MarkdownViewer";
 import Image from "next/image";
-import { getPostDetail } from "service/posts";
+import { getPostDetail, getPosts } from "service/posts";
 import { AiOutlineCalendar } from "react-icons/ai";
 import PostPreview from "components/PostPreview";
 import { Metadata } from "next";
@@ -50,4 +50,12 @@ export default async function PostDetailPage({ params: { post } }: Props) {
       </section>
     </article>
   );
+}
+
+// 원하는 페이지에 한해서 미리 만들어 놓고 싶음 => SSG
+export async function generateStaticParams() {
+  const posts = await getPosts();
+  return posts.map((post) => ({
+    slug: post.path,
+  }));
 }
