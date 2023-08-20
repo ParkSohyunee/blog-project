@@ -1,6 +1,6 @@
-import Category from "components/Category";
 import { getPosts } from "service/posts";
 import { Metadata } from "next";
+import FilterablePosts from "components/FilterablePosts";
 
 export const metadata: Metadata = {
   title: "Posts",
@@ -9,11 +9,12 @@ export const metadata: Metadata = {
 
 export default async function PostsPage() {
   const posts = await getPosts();
+  const categories = [...new Set(posts.map((post) => post.category))];
 
   return (
     <div>
       <h1 className="text-2xl my-4">🔖 Posts</h1>
-      <Category posts={posts} />
+      <FilterablePosts posts={posts} categories={categories} />
     </div>
   );
 }
